@@ -1,6 +1,8 @@
 package br.com.vladilima.Screenmatch;
 
+import br.com.vladilima.Screenmatch.model.Episodio;
 import br.com.vladilima.Screenmatch.model.Serie;
+import br.com.vladilima.Screenmatch.model.Temporada;
 import br.com.vladilima.Screenmatch.service.ConsumoAPI;
 import br.com.vladilima.Screenmatch.service.ConverteDados;
 import org.springframework.boot.CommandLineRunner;
@@ -18,13 +20,26 @@ public class ScreenmatchApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		var consumoApi = new ConsumoAPI();
 
-		String APIKey = "aaac8324";
-		String endereco = "https://www.omdbapi.com/?t=" + "supernatural" + "&apikey=" + APIKey;
+		String APIKey = "&apikey=aaac8324";
+		String endereco = "https://www.omdbapi.com/?t=" + "breaking+bad" + APIKey;
 		var json = consumoApi.obterDados(endereco);
 		System.out.println(json);
 
 		ConverteDados conversor = new ConverteDados();
 		Serie serie = conversor.obterDados(json, Serie.class);
 		System.out.println(serie);
+
+		for (int i = 1; i<= serie.totalTemporadas(); i++) {
+			endereco = "https://www.omdbapi.com/?t=" + "breaking+bad&season=" + i + APIKey;
+			json = consumoApi.obterDados(endereco);
+			Temporada temporada = conversor.obterDados(json, Temporada.class);
+			System.out.println(temporada);
+		}
+
+//		endereco = "https://www.omdbapi.com/?t=" + "supernatural&season=1&episode=2" + APIKey;
+//		json = consumoApi.obterDados(endereco);
+//		Episodio episodio = conversor.obterDados(json, Episodio.class);
+//		System.out.println(episodio);
+
 	}
 }
