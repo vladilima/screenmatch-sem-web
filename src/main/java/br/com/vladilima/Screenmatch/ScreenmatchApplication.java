@@ -1,16 +1,13 @@
 package br.com.vladilima.Screenmatch;
 
-import br.com.vladilima.Screenmatch.model.Episodio;
-import br.com.vladilima.Screenmatch.model.Serie;
-import br.com.vladilima.Screenmatch.model.Temporada;
-import br.com.vladilima.Screenmatch.service.ConsumoAPI;
-import br.com.vladilima.Screenmatch.service.ConverteDados;
+import br.com.vladilima.Screenmatch.principal.Principal;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ScreenmatchApplication implements CommandLineRunner {
+public class
+ScreenmatchApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ScreenmatchApplication.class, args);
@@ -18,23 +15,10 @@ public class ScreenmatchApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		var consumoApi = new ConsumoAPI();
 
-		String APIKey = "&apikey=aaac8324";
-		String endereco = "https://www.omdbapi.com/?t=" + "breaking+bad" + APIKey;
-		var json = consumoApi.obterDados(endereco);
-		System.out.println(json);
+		Principal menu = new Principal();
 
-		ConverteDados conversor = new ConverteDados();
-		Serie serie = conversor.obterDados(json, Serie.class);
-		System.out.println(serie);
-
-		for (int i = 1; i<= serie.totalTemporadas(); i++) {
-			endereco = "https://www.omdbapi.com/?t=" + "breaking+bad&season=" + i + APIKey;
-			json = consumoApi.obterDados(endereco);
-			Temporada temporada = conversor.obterDados(json, Temporada.class);
-			System.out.println(temporada);
-		}
+		menu.exibeMenu();
 
 //		endereco = "https://www.omdbapi.com/?t=" + "supernatural&season=1&episode=2" + APIKey;
 //		json = consumoApi.obterDados(endereco);
